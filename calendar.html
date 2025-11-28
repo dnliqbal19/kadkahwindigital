@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar - Dinie & Dhaifanzufar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #fff9e5; /* Soft gold background */
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 30px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            margin-bottom: 100px;
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            text-align: center;
+            color: #242322; /* Soft gold */
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .event-date {
+            text-align: center;
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        /* Calendar Widget */
+        .calendar-widget {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-month {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-arrow {
+            width: 35px;
+            height: 35px;
+            border: none;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            color: #667eea;
+        }
+
+        .nav-arrow:hover {
+            background: #667eea;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .calendar-day-header {
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+            padding: 8px 0;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #333;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .calendar-day.other-month {
+            color: #ccc;
+        }
+
+        .calendar-day.today {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .calendar-day:not(.other-month):not(.today):hover {
+            background: rgba(102, 126, 234, 0.1);
+            cursor: pointer;
+        }
+
+        /* Add to Calendar Buttons */
+        .calendar-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .calendar-btn {
+            padding: 16px 24px;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .apple-btn {
+            background: linear-gradient(135deg, #000000, #434343);
+            color: white;
+        }
+
+        .apple-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .google-btn {
+            background: linear-gradient(135deg, #4285F4, #357AE8);
+            color: white;
+        }
+
+        .google-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(66, 133, 244, 0.4);
+        }
+
+        .btn-icon {
+            font-size: 24px;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: rgba(102, 126, 234, 0.1);
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 25px;
+        }
+
+        .info-box p {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 10px;
+            z-index: 100;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #999;
+            font-size: 11px;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 10px;
+        }
+
+        .nav-item.active {
+            color: #667eea;
+        }
+
+        .nav-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateY(-3px);
+            color: #667eea;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .title {
+                font-size: 28px;
+            }
+
+            .calendar-widget {
+                padding: 20px 15px;
+            }
+
+            .calendar-day {
+                font-size: 13px;
+            }
+
+            .calendar-day-header {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Calendar</h1>
+        <p class="event-date">Sabtu, 27 Disember 2025</p>
+
+        <!-- Calendar Widget -->
+        <div class="calendar-widget">
+            <div class="calendar-header">
+                <div class="calendar-month" id="monthYear">Dis 2025</div>
+                <div class="calendar-nav">
+                    <button class="nav-arrow" onclick="changeMonth(-1)">◀</button>
+                    <button class="nav-arrow" onclick="changeMonth(1)">▶</button>
+                </div>
+            </div>
+
+            <div class="calendar-grid" id="calendarGrid">
+                <!-- Day headers -->
+                <div class="calendar-day-header">Ahd</div>
+                <div class="calendar-day-header">Isn</div>
+                <div class="calendar-day-header">Sel</div>
+                <div class="calendar-day-header">Rab</div>
+                <div class="calendar-day-header">Kha</div>
+                <div class="calendar-day-header">Jum</div>
+                <div class="calendar-day-header">Sab</div>
+                <!-- Days will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Add to Calendar Buttons -->
+        <div class="calendar-buttons">
+            <a href="#" onclick="addToAppleCalendar(); return false;" class="calendar-btn apple-btn">
+                <span class="btn-icon">🍎</span>
+                <span>Add to Apple Calendar</span>
+            </a>
+            <a href="#" onclick="addToGoogleCalendar(); return false;" class="calendar-btn google-btn">
+                <span class="btn-icon">📅</span>
+                <span>Add to Google Calendar</span>
+            </a>
+        </div>
+
+        <!-- Info Box -->
+        <div class="info-box">
+            <p>📌 Klik butang di atas untuk menambah tarikh majlis ke dalam kalendar anda. Anda akan menerima reminder automatik!</p>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="main.html" class="nav-item active">
+            <div class="nav-icon">🏠</div>
+            <div>Home</div>
+        </a>
+        <a href="rsvp.html" class="nav-item">
+            <div class="nav-icon">📋</div>
+            <div>RSVP</div>
+        </a>
+        <a href="contact.html" class="nav-item">
+            <div class="nav-icon">📞</div>
+            <div>Contact</div>
+        </a>
+        <a href="location.html" class="nav-item">
+            <div class="nav-icon">📍</div>
+            <div>Location</div>
+        </a>
+        <a href="calendar.html" class="nav-item active">
+            <div class="nav-icon">📅</div>
+            <div>Calendar</div>
+        </a>
+    </nav>
+
+    <script>
+        // Wedding date
+        const weddingDate = new Date(2025, 11, 27); // December 27, 2025
+        let currentMonth = 11; // December
+        let currentYear = 2025;
+
+        // Month names in Malay
+        const monthNames = ['Jan', 'Feb', 'Mac', 'Apr', 'Mei', 'Jun', 'Jul', 'Ogo', 'Sep', 'Okt', 'Nov', 'Dis'];
+
+        function generateCalendar(month, year) {
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const prevLastDay = new Date(year, month, 0);
+            
+            const firstDayOfWeek = firstDay.getDay();
+            const lastDateOfMonth = lastDay.getDate();
+            const prevLastDate = prevLastDay.getDate();
+            
+            const grid = document.getElementById('calendarGrid');
+            
+            // Clear existing days (keep headers)
+            while (grid.children.length > 7) {
+                grid.removeChild(grid.lastChild);
+            }
+            
+            // Update month/year display
+            document.getElementById('monthYear').textContent = `${monthNames[month]} ${year}`;
+            
+            // Previous month days
+            for (let i = firstDayOfWeek - 1; i >= 0; i--) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day other-month';
+                day.textContent = prevLastDate - i;
+                grid.appendChild(day);
+            }
+            
+            // Current month days
+            for (let i = 1; i <= lastDateOfMonth; i++) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day';
+                day.textContent = i;
+                
+                // Highlight wedding date
+                if (year === weddingDate.getFullYear() && 
+                    month === weddingDate.getMonth() && 
+                    i === weddingDate.getDate()) {
+                    day.classList.add('today');
+                }
+                
+                grid.appendChild(day);
+            }
+            
+            // Next month days
+            const remainingDays = 42 - (firstDayOfWeek + lastDateOfMonth);
+            for (let i = 1; i <= remainingDays; i++) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day other-month';
+                day.textContent = i;
+                grid.appendChild(day);
+            }
+        }
+
+        function changeMonth(direction) {
+            currentMonth += direction;
+            
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            } else if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            
+            generateCalendar(currentMonth, currentYear);
+        }
+
+        function addToGoogleCalendar() {
+            const title = encodeURIComponent('Majlis Perkahwinan Dinie & Dhaifanzufar');
+            const location = encodeURIComponent('The Glass Tree, ZulJannah, Bukit Beruntung');
+            const details = encodeURIComponent('Walimatul Urus - Majlis Resepsi');
+            const startDate = '20251227T030000Z'; // 11:00 AM MYT = 03:00 UTC
+            const endDate = '20251227T080000Z';   // 4:00 PM MYT = 08:00 UTC
+            
+            const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startDate}/${endDate}&details=${details}&location=${location}`;
+            
+            window.open(googleUrl, '_blank');
+        }
+
+        function addToAppleCalendar() {
+            // Generate ICS file content
+            const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Wedding Invitation//EN
+BEGIN:VEVENT
+UID:wedding-dinie-dhaifanzufar@example.com
+DTSTAMP:20241125T000000Z
+DTSTART:20251227T030000Z
+DTEND:20251227T080000Z
+SUMMARY:Majlis Perkahwinan Dinie & Dhaifanzufar
+LOCATION:The Glass Tree, ZulJannah, Bukit Beruntung
+DESCRIPTION:Walimatul Urus - Majlis Resepsi
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:Reminder: Majlis Perkahwinan esok!
+END:VALARM
+END:VEVENT
+END:VCALENDAR`;
+
+            // Create blob and download
+            const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = 'wedding-dinie-dhaifanzufar.ics';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Initialize calendar
+        generateCalendar(currentMonth, currentYear);
+
+        document.querySelectorAll('.bottom-nav .nav-item').forEach(function (item) {
+        item.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (!href || href === '#') return;
+
+            e.preventDefault();
+            window.location.replace(href);
+            });
+        })
+    </script>
+</body>
+</html>

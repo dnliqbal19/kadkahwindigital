@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSVP - Dinie & Dhaifanzufar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #fef4e2, #f3f1f6); /* soft pastel gradient */
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 30px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2); /* softer shadow for elegance */
+            margin-bottom: 100px;
+        }
+
+        .rsvp-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            text-align: center;
+            color: #9c7f50; /* muted gold color */
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        /* Attendance Buttons */
+        .attendance-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            justify-content: center; /* center the buttons */
+        }
+
+        .attendance-btn {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #9c7f50; /* gold border */
+            background: white;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: #9c7f50;
+        }
+
+        .attendance-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(156, 127, 80, 0.3); /* gold hover effect */
+        }
+
+        .attendance-btn.active {
+            background: linear-gradient(135deg, #9c7f50, #bfa473); /* elegant gold gradient */
+            color: white;
+            border-color: transparent;
+        }
+
+        .attendance-btn.active.not-attending {
+            background: linear-gradient(135deg, #e74c3c, #c0392b); /* red gradient for not attending */
+        }
+
+        /* Form Container */
+        .form-container {
+            display: none;
+            animation: slideDown 0.4s ease;
+        }
+
+        .form-container.show {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 15px;
+            color: #555;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #9c7f50;
+            box-shadow: 0 0 0 3px rgba(156, 127, 80, 0.2); /* soft gold focus */
+        }
+
+        .form-input::placeholder {
+            color: #aaa;
+        }
+
+        /* Number Input */
+        .number-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: 'Montserrat', sans-serif;
+            background: #f8f9fa;
+        }
+
+        /* Submit Buttons */
+        .submit-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .submit-btn {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .submit-btn.primary {
+            background: linear-gradient(135deg, #9c7f50, #bfa473); /* gold gradient */
+            color: white;
+        }
+
+        .submit-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(156, 127, 80, 0.4); /* gold hover effect */
+        }
+
+        .submit-btn.primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .submit-btn.secondary {
+            background: #f8f9fa;
+            color: #666;
+            border: 2px solid #e0e0e0;
+        }
+
+        .submit-btn.secondary:hover {
+            background: #e9ecef;
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        .success-text {
+            font-size: 20px;
+            color: #9c7f50;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .success-subtext {
+            font-size: 15px;
+            color: #666;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Info Box */
+        .info-box {
+            background: linear-gradient(135deg, rgba(156, 127, 80, 0.1), rgba(118, 75, 162, 0.1));
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border-left: 4px solid #9c7f50;
+        }
+
+        .info-box p {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .rsvp-title {
+                font-size: 28px;
+            }
+        }
+                /* Bottom Navigation – sama macam main.html */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 480px;
+            width: 100%;
+            background: #ffffff;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.12);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 8px 16px;
+            z-index: 100;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #999;
+            font-size: 11px;
+            transition: all 0.25s ease;
+            padding: 6px 8px;
+            border-radius: 12px;
+        }
+
+        .nav-item.active {
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .nav-item:hover {
+            background: rgba(102, 126, 234, 0.09);
+            transform: translateY(-3px);
+            color: #667eea;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="rsvp-title">RSVP</h1>
+
+        <!-- Attendance Selection -->
+        <div class="attendance-buttons">
+            <button class="attendance-btn" id="attendBtn" onclick="selectAttendance('hadir')">
+                <span>✓</span> Hadir
+            </button>
+            <button class="attendance-btn" id="notAttendBtn" onclick="selectAttendance('tidak')">
+                <span>✕</span> Tidak Hadir
+            </button>
+        </div>
+
+        <!-- Form for Attending -->
+        <div class="form-container" id="attendingForm">
+            <div class="info-box">
+                <p>Sila lengkapkan maklumat di bawah untuk pengesahan kehadiran anda.</p>
+            </div>
+
+            <form id="attendForm" onsubmit="submitAttendForm(event)">
+                <div class="form-group">
+                    <label class="form-label">Nama Anda</label>
+                    <input type="text" class="form-input" name="nama" placeholder="Cth: Ahmad Bin Ali" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Bilangan Hadir</label>
+                    <input type="number" class="form-input" name="dewasa" min="1" value="1" required>
+                </div>
+
+                <div class="submit-buttons">
+                    <button type="button" class="submit-btn secondary" onclick="resetForm()">
+                        ✕ Batal
+                    </button>
+                    <button type="submit" class="submit-btn primary">
+                        ✈ Hantar
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Form for Not Attending -->
+        <div class="form-container" id="notAttendingForm">
+            <form id="notAttendForm" onsubmit="submitNotAttendForm(event)">
+                <div class="form-group">
+                    <label class="form-label">Nama Anda</label>
+                    <input type="text" class="form-input" name="nama" placeholder="Cth: Ahmad Bin Ali" required>
+                </div>
+
+                <div class="submit-buttons">
+                    <button type="button" class="submit-btn secondary" onclick="resetForm()">
+                        ✕ Batal
+                    </button>
+                    <button type="submit" class="submit-btn primary">
+                        ✈ Hantar
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message" id="successMessage">
+            <div class="success-icon">🎉</div>
+            <div class="success-text">Terima Kasih!</div>
+            <div class="success-subtext">Respon anda telah berjaya dihantar.</div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="main.html" class="nav-item">
+            <div class="nav-icon">🏠</div>
+            <div>Home</div>
+        </a>
+        <a href="rsvp.html" class="nav-item active">
+            <div class="nav-icon">📋</div>
+            <div>RSVP</div>
+        </a>
+        <a href="contact.html" class="nav-item">
+            <div class="nav-icon">📞</div>
+            <div>Contact</div>
+        </a>
+        <a href="location.html" class="nav-item">
+            <div class="nav-icon">📍</div>
+            <div>Location</div>
+        </a>
+        <a href="calendar.html" class="nav-item">
+            <div class="nav-icon">📅</div>
+            <div>Calendar</div>
+        </a>
+    </nav>
+
+    <script>
+    // Google Sheets URL
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzRbHzZXi9-cMHWOv2b6gMw8poVeUVQ3A-i-CQLqYuq2xxuLjqIhxLHFrAL1dDBH39-/exec';
+    
+    let selectedAttendance = null;
+
+    function selectAttendance(type) {
+        selectedAttendance = type;
+        
+        // Reset all buttons
+        document.getElementById('attendBtn').classList.remove('active');
+        document.getElementById('notAttendBtn').classList.remove('active', 'not-attending');
+        
+        // Hide all forms & message
+        document.getElementById('attendingForm').classList.remove('show');
+        document.getElementById('notAttendingForm').classList.remove('show');
+        document.getElementById('successMessage').classList.remove('show');
+        
+        if (type === 'hadir') {
+            document.getElementById('attendBtn').classList.add('active');
+            setTimeout(() => {
+                document.getElementById('attendingForm').classList.add('show');
+            }, 100);
+        } else {
+            document.getElementById('notAttendBtn').classList.add('active', 'not-attending');
+            setTimeout(() => {
+                document.getElementById('notAttendingForm').classList.add('show');
+            }, 100);
+        }
+    }
+
+    // ✅ HADIR: nama + telefon + dewasa
+    function submitAttendForm(event) {
+        event.preventDefault();
+        
+        const form = event.target;
+        const formData = {
+            nama: form.nama.value.trim(),
+            status: 'Hadir',
+            dewasa: form.dewasa.value.trim()
+        };
+
+        const submitBtn = form.querySelector('.submit-btn.primary');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '⏳ Menghantar...';
+        submitBtn.disabled = true;
+
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(() => {
+            document.getElementById('attendingForm').classList.remove('show');
+            setTimeout(() => {
+                document.getElementById('successMessage').classList.add('show');
+            }, 300);
+            
+            setTimeout(() => {
+                resetForm();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 3000);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('attendingForm').classList.remove('show');
+            setTimeout(() => {
+                document.getElementById('successMessage').classList.add('show');
+            }, 300);
+            
+            setTimeout(() => {
+                resetForm();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 3000);
+        });
+    }
+
+    // ✅ TIDAK HADIR: hanya nama (telefon tak wajib, boleh buang field kalau nak)
+    function submitNotAttendForm(event) {
+        event.preventDefault();
+        
+        const form = event.target;
+        const formData = {
+            nama: form.nama.value.trim(),
+            status: 'Tidak Hadir'
+
+        };
+
+        const submitBtn = form.querySelector('.submit-btn.primary');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '⏳ Menghantar...';
+        submitBtn.disabled = true;
+
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(() => {
+            document.getElementById('notAttendingForm').classList.remove('show');
+            setTimeout(() => {
+                document.getElementById('successMessage').classList.add('show');
+            }, 300);
+            
+            setTimeout(() => {
+                resetForm();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 3000);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('notAttendingForm').classList.remove('show');
+            setTimeout(() => {
+                document.getElementById('successMessage').classList.add('show');
+            }, 300);
+            
+            setTimeout(() => {
+                resetForm();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 3000);
+        });
+    }
+
+    function resetForm() {
+        selectedAttendance = null;
+        document.getElementById('attendBtn').classList.remove('active');
+        document.getElementById('notAttendBtn').classList.remove('active', 'not-attending');
+        document.getElementById('attendingForm').classList.remove('show');
+        document.getElementById('notAttendingForm').classList.remove('show');
+        document.getElementById('successMessage').classList.remove('show');
+
+        const attendForm = document.getElementById('attendForm');
+        const notAttendForm = document.getElementById('notAttendForm');
+        if (attendForm) attendForm.reset();
+        if (notAttendForm) notAttendForm.reset();
+    }
+</script>
+</body>
+</html>

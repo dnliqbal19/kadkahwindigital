@@ -1,0 +1,1085 @@
+<!DOCTYPE html> 
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dinie & Dhaifanzufar - Jemputan Walimatul Urus</title>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #f3f6fc;
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        /* Background Pattern (halus je) */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.08;
+            pointer-events: none;
+            background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.08) 1px, transparent 0);
+            background-size: 18px 18px;
+        }
+
+        /* Main Container (mobile card) */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 480px;
+            margin: 0 auto;
+            background: #ffffff;
+            min-height: 100vh;
+            box-shadow: 0 0 50px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+        
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            padding: 50px 32px 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #333;
+
+            /* 🌸 gambar penuh background */
+            background-image: url('floral.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 1;
+        }
+
+        /* pastikan teks di atas overlay */
+        .hero-inner-card {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-inner-card {
+            padding: 40px 24px 36px;
+            background: transparent;
+            border-radius: 0;
+            box-shadow: none;
+            max-width: 360px;
+        }
+
+
+        .hero-title {
+            font-size: 14px;
+            letter-spacing: 4px;
+            margin-top: 50px;;
+            margin-bottom: -15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #b89c61; /* soft gold */
+        }
+
+        .divider-small {
+            width: 80px;
+            height: 1px;
+            margin: 0 auto 20px;
+            margin-top: 40px;
+            background: linear-gradient(to right, transparent, #c8b27c, transparent);
+        }
+
+        .couple-names {
+            font-family: 'Great Vibes', cursive;
+            font-size: 56px;
+            line-height: 1.1;
+            margin: 10px 0px;
+            margin-bottom: -20px;
+            color: #800020;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.9);
+        }
+
+        .ampersand {
+            font-family: 'Great Vibes', cursive;
+            font-size: 40px;
+            margin: 30px 0 0px;
+            color: #800020;
+        }
+
+        .hero-date {
+            margin-top: 22px;
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: #444;
+        }
+
+        .hero-day {
+            font-weight: 600;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .hero-date-line {
+            font-size: 17px;
+        }
+
+        .hero-venue {
+            margin-top: 10px;
+            font-size: 13px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #666;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(28px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-inner-card > * {
+            animation: fadeInUp 0.9s ease forwards;
+        }
+
+        .hero-inner-card > *:nth-child(1) { animation-delay: 0.1s; }
+        .hero-inner-card > *:nth-child(2) { animation-delay: 0.2s; }
+        .hero-inner-card > *:nth-child(3) { animation-delay: 0.3s; }
+        .hero-inner-card > *:nth-child(4) { animation-delay: 0.4s; }
+        .hero-inner-card > *:nth-child(5) { animation-delay: 0.5s; }
+        .hero-inner-card > *:nth-child(6) { animation-delay: 0.6s; }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 26px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            z-index: 3;
+        }
+
+        .scroll-indicator::before {
+            content: '↓';
+            font-size: 26px;
+            color: #7f8aa0;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-8px); }
+            60% { transform: translateX(-50%) translateY(-4px); }
+        }
+
+        /* MUSIC BAR */
+        .music-bar {
+            position: fixed;
+            top: -60px; /* hidden when page loads */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            max-width: 480px;
+            background: #d8d1d1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            font-size: 13px;
+            border-radius: 0 0 14px 14px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            z-index: 9999;
+            backdrop-filter: blur(6px);
+            cursor: pointer; /* bar boleh klik */
+            transition: top 0.35s ease;
+        }
+
+        .music-dot {
+            width: 8px;
+            height: 8px;
+            background: #8b5cf6;
+            border-radius: 50%;
+            animation: pulse 1.4s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: .7; }
+            50% { transform: scale(1.8); opacity: 1; }
+            100% { transform: scale(1); opacity: .7; }
+        }
+
+        .music-title {
+            flex: 1;
+            font-weight: 600;
+            color: #333;
+        }
+
+
+        .music-btn {
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 4px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+        }  
+
+        .music-btn:active {
+            transform: scale(0.88);
+        }
+
+        /* ======================= */
+        /* Invitation Page Section */
+        /* ======================= */
+
+        .invitation-section {
+            position: relative;
+            height: 100vh;
+            padding: 10px 32px 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #333;
+            
+
+            /* fallback warna kalau gambar tak load */
+            background-color: #f5f8ff;
+
+            /* 🌸 gambar penuh background */
+            background-image: url('jemputan.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow: hidden;
+        }
+
+
+
+        .inv-card {
+            max-width: 380px;
+            margin: 0 auto;
+            text-align: center;
+            background: transparent;
+            padding: 10px 10px 0;
+            box-shadow: none;
+        }
+
+        /* Bismillah kecil di atas */
+ 
+
+        /* kalau ada gambar kaligrafi, guna ini:
+        .inv-bismillah img {
+            height: 40px;
+        }
+        */
+
+        .inv-opening-line {
+            font-size: 10px;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            color: #777;
+            margin-top: 100px;
+            margin-bottom: 20px;
+            margin-left: -15px;
+            white-space: nowrap;
+        }
+
+        /* Nama ibu bapa */
+        .inv-parents {
+            font-family: 'Playfair Display', serif;
+            font-size: 15px;
+            letter-spacing: 1px;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .inv-parents span {
+            display: block;
+        }
+
+        .inv-amp {
+            font-size: 14px;
+            margin: 4px 0;
+        }
+
+        /* teks pendek di tengah */
+        .inv-text {
+            font-size: 12px;
+            color: #555;
+            line-height: 1.8;
+            max-width: 340px;
+            margin: 0 auto 16px;
+        }
+
+        /* garis halus */
+        .inv-divider {
+            width: 75%;
+            height: 1px;
+            background: #ccc;
+            margin: 16px auto;
+        }
+
+        /* ayat "UNTUK MENYERIKAN..." */
+        .inv-highlight {
+            font-size: 11px;
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
+            color: #777;
+            margin-bottom: 18px;
+        }
+
+        /* nama pengantin */
+        .inv-couple {
+            font-family: 'Playfair Display', serif;
+            font-size: 17px;
+            letter-spacing: 1px;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 10px;
+            white-space: nowrap;
+        }
+
+        .inv-couple span {
+            display: block;
+        }
+
+        /* Responsive kecil */
+        @media (max-width: 480px) {
+            .invitation-section {
+                padding: 32px 20px 44px;
+            }
+
+            .inv-card {
+                padding: 4px 0 0;
+            }
+
+            .inv-text {
+                font-size: 11px;
+            }
+
+            .inv-couple {
+                font-size: 16px;
+            }
+        }
+
+
+        /* Countdown Section – versi kad kahwin */
+        .countdown-section {
+            position: relative;
+            background: #f8f3e7;
+            padding: 42px 28px 52px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* garisan emas atas & bawah */
+        .countdown-section::before,
+        .countdown-section::after {
+            content: "";
+            position: absolute;
+            left: 8%;
+            right: 8%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #caa45e, #e3c67c, #caa45e, transparent);
+        }
+
+        .countdown-section::before {
+            top: 18px;
+        }
+
+        .countdown-section::after {
+            bottom: 18px;
+        }
+
+        /* tajuk */
+        .countdown-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #494949;
+            margin-bottom: 18px;
+        }
+
+        /* subteks kecil */
+        .countdown-subtitle {
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #b08b4d;
+            margin-bottom: 22px;
+        }
+
+        /* kad putih yang memegang timer */
+        .countdown-frame {
+            display: inline-block;
+            background: #ffffff;
+            padding: 18px 22px 20px;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        /* baris label HARI / JAM / ... */
+        .countdown-label-row {
+            display: flex;
+            justify-content: center;
+            gap: 47px;
+            margin-bottom: 6px;
+        }
+
+        .countdown-label-row span {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #777;
+        }
+
+        /* baris digit timer */
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        /* kotak digit */
+        .time-unit {
+            background: #151515;
+            border-radius: 8px;
+            padding: 10px 8px;
+            min-width: 46px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.35);
+        }
+
+        .time-number {
+            font-family: "Montserrat", sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 2px;
+        }
+
+        /* titik dua di antara kotak */
+        .time-separator {
+            font-size: 28px;
+            font-weight: 600;
+            color: #444;
+            margin: 0 2px 2px;
+        }
+
+        /* =================== */
+        /* GALERI SECTION      */
+        /* =================== */
+
+        .gallery-section {
+            background: #ffffff;
+            padding: 40px 28px 70px;
+            text-align: center;
+        }
+
+        .gallery-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #444;
+            margin-bottom: 24px;
+        }
+
+        .gallery-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 2px;
+            background: #b08b4d;
+            margin: 10px auto 0;
+        }
+
+        .gallery-slider {
+            position: relative;
+            max-width: 360px;
+            margin: 0 auto;
+        }
+
+        .gallery-slide {
+            display: none;
+        }
+
+        .gallery-slide.active {
+            display: block;
+        }
+
+        .gallery-img {
+            width: 100%;
+            border-radius: 18px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+            object-fit: cover;
+        }
+
+        /* Quote Section */
+        .quote-section {
+            background-image: url('quote.png'); /* Pastikan file berada dalam folder sama */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 60px 20px;
+            display: flex;
+            height: 105vh;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #050505;
+            position: relative;
+            font-style: italic;
+        }
+
+        /* Lapisan gelap */
+        .quote-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 0;
+        }
+
+        .quote-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 400px;
+        }
+
+        .quote-text,
+        .quote-ref {
+            position: relative;
+            top: -205px;  /* nilai negatif = naik ke atas */
+        }
+
+        .quote-text {
+                position: relative;
+                top: -210px;        /* 👉 Gerak naik/turun */
+                font-size: 12px;    /* 👉 Tukar saiz font */
+                letter-spacing: 0.3px; /* 👉 Jarak antara huruf */
+                line-height: 1.4;   /* 👉 Tinggi baris */
+                padding: 0 52px;    /* 👉 Jarak kiri kanan */
+                text-align: center;
+        }
+
+        .quote-ref {
+                position: relative;
+                top: -210px;        /* 👉 Gerak naik/turun */
+                font-size: 14px;    /* 👉 Saiz lebih kecil */
+                letter-spacing: 1px; /* 👉 Jarak huruf */
+                margin-top: 5px;
+                color: #c89c3f;     /* Warna emas lembut */
+        }
+
+
+
+        /* Content Sections */
+        .content-section {
+            padding: 40px 28px 70px;
+            background: #ffffff;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            text-align: center;
+            color: #444;
+            margin-bottom: 26px;
+            position: relative;
+            font-weight: 600;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+
+            margin: 12px auto 0;
+        }
+
+        .event-card {
+            background: linear-gradient(135deg, #f7f8fc -80%, #b08b4d 100%);
+            border-radius: 20px;
+            padding: 26px;
+            margin: 12px 0 10px;
+            box-shadow: 0 10px 26px rgba(0,0,0,0.06);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-card::before {
+            content: '';
+            position: absolute;
+            top: -60%;
+            right: -40%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255,255,255,0.5), transparent);
+            border-radius: 50%;
+        }
+
+        .event-type {
+            font-size: 16px;
+            color: #444;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .event-details {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #444;
+            position: relative;
+            z-index: 1;
+        }
+
+        .event-details strong {
+            color: #444;
+            display: inline-block;
+            width: 80px;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 480px;
+            width: 100%;
+            background: #ffffff;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.12);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 8px 16px;
+            z-index: 100;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #999;
+            font-size: 11px;
+            transition: all 0.25s ease;
+            padding: 6px 8px;
+            border-radius: 12px;
+        }
+
+        .nav-item.active {
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .nav-item:hover {
+            background: rgba(102, 126, 234, 0.09);
+            transform: translateY(-3px);
+            color: #667eea;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        /* Focus styles (A11y) */
+        button:focus-visible,
+        a:focus-visible {
+            outline: 2px solid #667eea;
+            outline-offset: 3px;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .hero-inner-card {
+                padding: 34px 20px 30px;
+            }
+
+            .couple-names {
+                font-size: 48px;
+            }
+
+            .countdown-section {
+                padding: 30px 22px;
+            }
+
+            .content-section {
+                padding: 34px 20px 70px;
+            }
+
+            .invitation-section {
+                padding: 32px 20px 44px;
+            }
+
+            .inv-card {
+                padding: 26px 18px 32px;
+            }
+        }
+
+        /* Flower Fall Effect */
+        .flower {
+            position: fixed;
+            top: -10px;
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(circle, #fff 40%, rgba(255,255,255,0) 60%);
+            opacity: 0.75;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: fall 6s linear infinite;
+            z-index: 2;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0.8;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) translateX(40px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background pattern -->
+    <div class="bg-pattern"></div>
+
+    <div class="music-bar" id="musicBar">
+        <div class="music-dot"></div>
+        <span class="music-title">Setia - Faizal Tahir (Instrumental)</span>
+    </div>
+
+    <audio id="bg-music" preload="auto" loop>
+        <source src="lagu.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container">
+
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-inner-card">
+                <div class="hero-title">WALIMATULURUS</div>
+                <div class="divider-small"></div>
+
+                <div class="couple-names">Dinie</div>
+                <div class="ampersand">&</div>
+                <div class="couple-names">Dhaifanzufar</div>
+
+                <div class="divider-small"></div>
+
+                <div class="hero-date">
+                    <div class="hero-day">Sabtu</div>
+                    <div class="hero-date-line">27 Disember 2025</div>
+                </div>
+                <div class="hero-venue">The Glass Tree,<br> ZulJannah Klang</div>
+            </div>
+
+            <div class="scroll-indicator"></div>
+        </section>
+
+        <!-- Invitation Page / Teks Jemputan -->
+        <section class="invitation-section">
+            <div class="inv-card">
+
+                <!-- Ayat pembuka kecil -->
+                <div class="inv-opening-line">
+                    DENGAN IZIN ALLAH KE ATAS HAMBANYA YANG MERANCANG, KAMI
+                </div>
+
+                <!-- Nama ibu bapa -->
+                <div class="inv-parents">
+                    <span>MOHD MARJAN BIN MUHD SAYUT</span>
+                    <span class="inv-amp">&amp;</span>
+                    <span>SITI INCAH BINTI ALIAS</span>
+                </div>
+
+                <!-- Teks jemputan pendek -->
+                <p class="inv-text">
+                    Sejambak mawar setepak sirih dihulurkan untuk mengundang
+                    Dato’/Datin/Dr/Tuan/Puan/Encik/Cik hadir memeriahkan majlis
+                    perkahwinan puteri kami.
+                </p>
+
+                <!-- Nama pengantin -->
+                <div class="inv-couple">
+                    <span>NUR DINIE AFIQAH BINTI MOHD MARJAN</span>
+                    <span class="inv-amp">&amp;</span>
+                    <span>DHAIFANZUFAR BIN DAZUKA</span>
+                </div>
+
+                <div style="margin-top: 20px; font-size: 13px; color:#444; line-height:1.7;">
+                    <strong>Tarikh:</strong><br> 27 Disember 2025 (Sabtu)<br>
+                    <strong>Masa:</strong> <br>11.00 Pagi - 4.00 Petang<br>
+                    <strong>Tempat:</strong><br> The Glass Tree, ZulJannah, Klang<br>
+                    <strong>Aturcara Majlis</strong>  <br>11:00 AM Majlis Bermula<br>
+                    <strong></strong> 12:30 PM Ketibaan Pengantin<br>
+                    <strong></strong> 4:00 PM Majlis Berakhir<br>
+                </div>
+            </div>
+        </section>
+
+        <!-- Countdown Section -->
+        <section class="countdown-section">
+            <div class="countdown-heading">Menghitung Hari</div>
+            <div class="countdown-subtitle">Menuju Walimatul Urus</div>
+
+            <div class="countdown-frame">
+                <div class="countdown-label-row">
+                    <span>Hari</span>
+                    <span>Jam</span>
+                    <span>Minit</span>
+                    <span>Saat</span>
+                </div>
+
+                <div class="countdown-timer" id="countdown">
+                    <div class="time-unit">
+                        <span class="time-number" id="days">00</span>
+                    </div>
+                    <div class="time-separator">:</div>
+                    <div class="time-unit">
+                        <span class="time-number" id="hours">00</span>
+                    </div>
+                    <div class="time-separator">:</div>
+                    <div class="time-unit">
+                        <span class="time-number" id="minutes">00</span>
+                    </div>
+                    <div class="time-separator">:</div>
+                    <div class="time-unit">
+                        <span class="time-number" id="seconds">00</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Galeri Section -->
+        <section class="gallery-section">
+            <h2 class="gallery-title">GALERI</h2>
+
+            <div class="gallery-slider">
+                <!-- Slide 1 -->
+                <div class="gallery-slide active">
+                    <img src="cincin.png" alt="Galeri 1" class="gallery-img">
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- Quote Section -->
+        <!-- Quote Section with Background Image -->
+        <section class="quote-section">
+            <div class="quote-inner">
+                <p class="quote-text">
+                    "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan hidup dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya."
+                </p>
+                <div class="quote-ref">
+                    - Surah Ar-Rum, Ayat 21
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="main.html" class="nav-item active">
+            <div class="nav-icon">🏠</div>
+            <div>Home</div>
+        </a>
+        <a href="rsvp.html" class="nav-item">
+            <div class="nav-icon">📋</div>
+            <div>RSVP</div>
+        </a>
+        <a href="contact.html" class="nav-item">
+            <div class="nav-icon">📞</div>
+            <div>Contact</div>
+        </a>
+        <a href="location.html" class="nav-item">
+            <div class="nav-icon">📍</div>
+            <div>Location</div>
+        </a>
+        <a href="calendar.html" class="nav-item">
+            <div class="nav-icon">📅</div>
+            <div>Calendar</div>
+        </a>
+    </nav>
+
+    <script>
+    // Countdown Timer
+    function updateCountdown() {
+        const weddingDate = new Date('2025-12-27T11:00:00').getTime();
+        const now = new Date().getTime();
+        const distance = weddingDate - now;
+
+        if (distance < 0) {
+            document.getElementById('countdown').innerHTML =
+                '<h2 style="color: #494949; font-weight:500;">Majlis Berlangsung!</h2>';
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById('days').textContent = String(days).padStart(2, '0');
+        document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+        document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    /* ============================ */
+    /*      GALLERY SLIDER          */
+    /* ============================ */
+
+    const gallerySlides = document.querySelectorAll('.gallery-slide');
+
+    // Pastikan hanya gambar pertama yang muncul
+    let currentSlide = 0;
+
+    function showSlide(index) {
+        // pastikan index berpusing
+        if (index < 0) index = gallerySlides.length - 1;
+        if (index >= gallerySlides.length) index = 0;
+
+        // reset semua
+        gallerySlides.forEach(s => s.classList.remove('active'));
+
+        // aktifkan gambar pertama sahaja
+        gallerySlides[index].classList.add('active');
+    }
+
+    // Hanya tunjuk gambar pertama sahaja
+    if (gallerySlides.length) {
+        showSlide(currentSlide);  // Menunjukkan gambar pertama secara default
+    }
+
+
+    /* ============================ */
+    /*      MUSIC BAR LOGIC FIX     */
+    /* ============================ */
+
+    const audio = document.getElementById("bg-music");
+    const bar = document.getElementById("musicBar");
+
+    // AUTOPLAY jika datang dari index
+    if (localStorage.getItem("musicAllowed") === "yes") {
+        setTimeout(() => {
+            audio.play().catch(()=>{});
+        }, 300);
+    }
+
+    // Klik bar → toggle sekali sahaja
+    bar.addEventListener("click", () => {
+        if (audio.paused) {
+            audio.play().catch(()=>{});
+        } else {
+            audio.pause();
+        }
+    });
+
+    // Backup autoplay jika iPhone block
+    // ⚠️ Abaikan klik pada music bar supaya tak kacau pause/play
+    document.addEventListener("click", function (e) {
+        // kalau klik datang dari dalam bar, jangan buat apa-apa
+        if (bar.contains(e.target)) return;
+
+        if (localStorage.getItem("musicAllowed") === "yes" && audio.paused) {
+            audio.play().catch(()=>{});
+        }
+    }, { once: true });
+
+
+
+    // Tunjuk bar bila scroll melepasi hero section
+    window.addEventListener("scroll", () => {
+        const heroHeight = document.querySelector(".hero-section").offsetHeight;
+
+        if (window.scrollY < heroHeight - 80) {
+            bar.style.top = "-60px"; // hide
+        } else {
+            bar.style.top = "0px"; // show
+        }
+    });
+
+
+    // NAVIGATION
+    document.querySelectorAll('.bottom-nav .nav-item').forEach(function (item) {
+        item.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (!href || href === 'main.html') return;
+
+            e.preventDefault();
+            window.location.replace(href);
+        });
+    });
+
+</script>
+
+        <script>
+        function createFlower() {
+            const flower = document.createElement("div");
+            flower.classList.add("flower");
+
+            // Random horizontal position
+            flower.style.left = Math.random() * 100 + "vw";
+
+            // Random size
+            const size = Math.random() * 10 + 8;
+            flower.style.width = size + "px";
+            flower.style.height = size + "px";
+
+            // Random animation duration
+            flower.style.animationDuration = (Math.random() * 4 + 4) + "s";
+
+            document.body.appendChild(flower);
+
+            // Remove after animation
+            setTimeout(() => { flower.remove(); }, 8000);
+        }
+
+        // Generate petals every 500ms
+        setInterval(createFlower, 500);
+</script>
+
+</body>
+</html>

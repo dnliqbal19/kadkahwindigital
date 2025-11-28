@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Gift - Dinie & Dhaifanzufar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            /* Ensure the gradient background applies to the whole body */
+            background: linear-gradient(135deg, #f5f5f5 0%, #e0e7ff 100%);
+            min-height: 100vh;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 30px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            margin-bottom: 100px;
+            z-index: 1; /* Ensure it's above the gradient */
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            text-align: center;
+            color: #4A4A4A;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 35px;
+            line-height: 1.6;
+        }
+
+        /* Bank Details Card */
+        .bank-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .bank-label {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .bank-value {
+            font-size: 18px;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .bank-value:last-child {
+            margin-bottom: 5;
+        }
+
+        .copy-btn {
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 4px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+        }
+
+        .copy-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .copy-btn.copied {
+            background: #10b981;
+            border-color: #10b981;
+            color: white;
+        }
+
+        /* QR Code Section */
+        .qr-section {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .qr-label {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .qr-container {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            display: inline-block;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .qr-code {
+            width: 280px;
+            height: 280px;
+            border: 3px solid #f0f0f0;
+            border-radius: 15px;
+            object-fit: contain;
+        }
+
+        .qr-placeholder {
+            width: 280px;
+            height: 280px;
+            background: linear-gradient(135deg, #e0e7ff 0%, #f0e7ff 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #667eea;
+            font-size: 14px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .qr-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        /* Download Button */
+        .download-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Info Note */
+        .info-note {
+            background: rgba(102, 126, 234, 0.1);
+            border-left: 4px solid #667eea;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-top: 25px;
+        }
+
+        .info-note p {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 10px;
+            z-index: 100;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #999;
+            font-size: 11px;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 10px;
+        }
+
+        .nav-item.active {
+            color: #667eea;
+        }
+
+        .nav-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateY(-3px);
+            color: #667eea;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: none;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            display: flex;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .title {
+                font-size: 28px;
+            }
+
+            .qr-code, .qr-placeholder {
+                width: 240px;
+                height: 240px;
+            }
+
+            .toast {
+                right: 10px;
+                left: 10px;
+                top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Money Gift</h1>
+        <p class="subtitle">
+            Sekiranya ingin memberikan sedikit sumbangan, kami sediakan maklumat berikut untuk memudahkan urusan.
+        </p>
+
+        <!-- Bank Details -->
+        <div class="bank-card">
+            <div>
+                <div class="bank-label">Nama Bank</div>
+                <div class="bank-value">
+                    <span>Maybank Berhad</span>
+                </div>
+            </div>
+
+            <div>
+                <div class="bank-label">No Akaun</div>
+                <div class="bank-value">
+                    <span id="accountNumber">162870163040</span>
+                    <button class="copy-btn" onclick="copyToClipboard('162870163040', this)">
+                        📋 Salin
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- QR Code Section -->
+        <div class="qr-section">
+            <div class="qr-label">Kod QR</div>
+            <div class="qr-container">
+                <img src="qr-code.png" alt="QR Code" class="qr-code" id="qrImage">
+            </div>
+            <br>
+            <button class="download-btn" onclick="downloadQR()">
+                ⬇ Simpan QR Code
+            </button>
+        </div>
+
+        <!-- Info Note -->
+        <div class="info-note">
+            <p>💝 Hadiah wang adalah pilihan dan tidak diwajibkan. Kehadiran dan doa restu anda adalah hadiah terbaik untuk kami. Terima kasih! 🙏</p>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span>✓</span>
+        <span>Nombor akaun berjaya disalin!</span>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="main.html" class="nav-item active">
+            <div class="nav-icon">🏠</div>
+            <div>Home</div>
+        </a>
+        <a href="rsvp.html" class="nav-item">
+            <div class="nav-icon">📋</div>
+            <div>RSVP</div>
+        </a>
+        <a href="moneygift.html" class="nav-item active">
+            <div class="nav-icon">💰</div>
+            <div>Money Gift</div>
+        </a>
+        <a href="contact.html" class="nav-item">
+            <div class="nav-icon">📞</div>
+            <div>Contact</div>
+        </a>
+        <a href="location.html" class="nav-item">
+            <div class="nav-icon">📍</div>
+            <div>Location</div>
+        </a>
+        <a href="calendar.html" class="nav-item">
+            <div class="nav-icon">📅</div>
+            <div>Calendar</div>
+        </a>
+    </nav>
+
+    <script>
+        // Copy to Clipboard Function
+        function copyToClipboard(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Show toast
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                
+                // Change button state
+                const originalText = button.innerHTML;
+                button.innerHTML = '✓ Disalin';
+                button.classList.add('copied');
+                
+                // Reset after 2 seconds
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    button.innerHTML = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                alert('Gagal menyalin. Sila cuba lagi.');
+                console.error('Copy failed:', err);
+            });
+        }
+
+        // Download QR Code
+        function downloadQR() {
+            // Check if QR image exists
+            const qrImage = document.getElementById('qrImage');
+            
+            if (qrImage) {
+                // If QR image exists, download it
+                const link = document.createElement('a');
+                link.href = qrImage.src;
+                link.download = 'QR-Code-Money-Gift.png';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } else {
+                // If no QR image, show alert
+                alert('Sila tambah QR code image terlebih dahulu.\n\nCara:\n1. Generate QR code dari bank app\n2. Save image sebagai "qr-code.png"\n3. Letak dalam folder yang sama dengan HTML\n4. Uncomment line QR image dalam code');
+            }
+        }
+    </script>
+</body>
+</html>

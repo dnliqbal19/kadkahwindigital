@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Dinie & Dhaifanzufar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #fff9e5 0%, #fff0c1 100%); /* Soft gold background */
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 30px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            margin-bottom: 100px;
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            text-align: center;
+            color: #0f0f0f; /* Soft gold */
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        /* Contact Card */
+        .contact-card {
+            background: linear-gradient(#f8f7e9); /* Light soft gold gradient */
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255,255,255,0.3), transparent);
+            border-radius: 50%;
+        }
+
+        .contact-name {
+            font-size: 24px;
+            font-weight: 600;
+            color: #0f0f0f; /* Soft gold */
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-name::before {
+            content: '👤';
+            font-size: 28px;
+        }
+
+        .contact-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .contact-btn {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 15px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .phone-btn {
+            background: linear-gradient(135deg, #b89c61, #7a6a42); /* Gold color */
+            color: white;
+        }
+
+        .phone-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .whatsapp-btn {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+        }
+
+        .whatsapp-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+        }
+
+        .btn-icon {
+            font-size: 20px;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: rgba(102, 126, 234, 0.1);
+            border-left: 4px solid #b89c61; /* Soft gold */
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .info-box p {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            margin: 0;
+            text-align: center;
+        }
+
+        /* Divider */
+        .divider {
+            text-align: center;
+            margin: 25px 0;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #ddd, transparent);
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 15px;
+            color: #999;
+            font-size: 13px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 10px;
+            z-index: 100;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #999;
+            font-size: 11px;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 10px;
+        }
+
+        .nav-item.active {
+            color: #667eea;
+        }
+
+        .nav-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateY(-3px);
+            color: #667eea;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .title {
+                font-size: 28px;
+            }
+
+            .contact-card {
+                padding: 25px 20px;
+            }
+
+            .contact-name {
+                font-size: 20px;
+            }
+
+            .contact-buttons {
+                flex-direction: column;
+            }
+
+            .contact-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Contact</h1>
+        <p class="subtitle">
+            Sebarang pertanyaan, sila hubungi kami melalui pilihan di bawah.
+        </p>
+
+        <div class="contact-card">
+            <div class="contact-name">Mohd Marjan (Abah)</div>
+            <div class="contact-buttons">
+                <a href="tel:+60122959937" class="contact-btn phone-btn">
+                    <span class="btn-icon">📞</span>
+                    <span>Call</span>
+                </a>
+                <a href="https://wa.me/60122959937?text=Assalamualaikum,%20saya%20ingin%20bertanya%20mengenai%20majlis%20perkahwinan%20Dinie%20dan%20Dhaifanzufar" class="contact-btn whatsapp-btn" target="_blank">
+                    <span class="btn-icon">💬</span>
+                    <span>WhatsApp</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="divider">
+            <span>atau</span>
+        </div>
+
+        <div class="contact-card">
+            <div class="contact-name">Siti Incah (Mama)</div>
+            <div class="contact-buttons">
+                <a href="tel:+60124879937" class="contact-btn phone-btn">
+                    <span class="btn-icon">📞</span>
+                    <span>Call</span>
+                </a>
+                <a href="https://wa.me/60124879937?text=Assalamualaikum,%20saya%20ingin%20bertanya%20mengenai%20majlis%20perkahwinan%20Dinie%20dan%20Dhaifanzufar" class="contact-btn whatsapp-btn" target="_blank">
+                    <span class="btn-icon">💬</span>
+                    <span>WhatsApp</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="divider">
+            <span>atau</span>
+        </div>
+
+        <div class="contact-card">
+            <div class="contact-name">Daniel Iqbal (Adik)</div>
+            <div class="contact-buttons">
+                <a href="tel:+60196072495" class="contact-btn phone-btn">
+                    <span class="btn-icon">📞</span>
+                    <span>Call</span>
+                </a>
+                <a href="https://wa.me/60196072495?text=Assalamualaikum,%20saya%20ingin%20bertanya%20mengenai%20majlis%20perkahwinan%20Dinie%20dan%20Dhaifanzufar." class="contact-btn whatsapp-btn" target="_blank">
+                    <span class="btn-icon">💬</span>
+                    <span>WhatsApp</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Info Box -->
+        <div class="info-box">
+            <p>📱 Kami sedia membantu menjawab sebarang pertanyaan berkaitan majlis perkahwinan ini.</p>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="main.html" class="nav-item active">
+            <div class="nav-icon">🏠</div>
+            <div>Home</div>
+        </a>
+        <a href="rsvp.html" class="nav-item">
+            <div class="nav-icon">📋</div>
+            <div>RSVP</div>
+        </a>
+        <a href="contact.html" class="nav-item active">
+            <div class="nav-icon">📞</div>
+            <div>Contact</div>
+        </a>
+        <a href="location.html" class="nav-item">
+            <div class="nav-icon">📍</div>
+            <div>Location</div>
+        </a>
+        <a href="calendar.html" class="nav-item">
+            <div class="nav-icon">📅</div>
+            <div>Calendar</div>
+        </a>
+    </nav>
+
+    <script>
+        // Navigation - block sections that haven't been created
+        document.querySelectorAll('.bottom-nav .nav-item').forEach(function (item) {
+        item.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (!href || href === '#') return;
+
+            e.preventDefault();
+            window.location.replace(href);
+            });
+        })
+    </script>
+</body>
+</html>
